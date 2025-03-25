@@ -1,0 +1,4 @@
+fourm@ git+https://github.com/apple/ml-4m.git@main#egg=fourm
+omegaconf
+hydra-core
+ipykernel

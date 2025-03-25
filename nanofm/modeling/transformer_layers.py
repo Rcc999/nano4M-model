@@ -62,11 +62,17 @@ class Mlp(nn.Module):
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
         
-        ??? # TODO
+        self.fc1 = nn.Linear(in_features, hidden_features, bias=bias)
+        self.fc2 = nn.Linear(hidden_features, out_features, bias=bias)
+        self.act = nn.GELU()
+        
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
 
-        ??? # TODO
+        x = self.fc1(x)
+        x = self.act(x)
+        x = self.fc2(x)
+        
 
 
 class Attention(nn.Module):
