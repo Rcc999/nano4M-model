@@ -88,6 +88,7 @@ class Attention(nn.Module):
     def __init__(self, dim: int, head_dim: int = 64, qkv_bias: bool = False, proj_bias: bool = False):
         super().__init__()
         self.num_heads = dim // head_dim
+        self.head_dim = head_dim 
         self.scale = head_dim ** -0.5
 
         # TODO: Define here the linear layer(s) producing K, Q, V from the input x
@@ -120,7 +121,7 @@ class Attention(nn.Module):
         # TODO: Weight the values V by the attention matrix and concatenate the different attention heads
         # Make sure to reshape the output to the original shape of x, i.e. [B L D]
         x = torch.matmul(attn, v)
-
+        x = rearrange(x, 'b h l d -> b l (h d)')
         # Output projection
         x = self.attn_out_proj(x)
         return x

@@ -17,7 +17,7 @@ lr: 0.0003 # Max learning rate
 min_lr: 0.000001 # Min learning rate after cosine decay
 weight_decay: 0.05 # AdamW weight decay
 clip_grad: 1.0 # Gradient clipping norm
-dtype: fp32 # Precision. Choose fp16 on V100s, bf16 on A100s or later. In case of instability, try fp32.
+dtype: bf16 # Precision. Choose fp16 on V100s, bf16 on A100s or later. In case of instability, try fp32.
 
 # Eval
 eval_freq: 100 # in millions of tokens
