@@ -226,18 +226,20 @@ class GPT(nn.Module):
             # Hint: Use the sample_tokens function from utils/sampling.py
             # Make sure to pass the temperature, top_k and top_p arguments
             nxt_token_logits = logits[:, -1, :]
-            next_token = sample_tokens(
+            nxt_token_info = sample_tokens(
                 nxt_token_logits,
                 temperature=temp,
                 top_k=top_k,
                 top_p=top_p
             )
+            
+            nxt_token = nxt_token_info[0] if isinstance(nxt_token_info, tuple) else nxt_token_info
 
             # Concatenate the new token to the current_tokens sequence
-            current_tokens = torch.cat([current_tokens, next_token.unsqueeze(1)], dim=1)
+            current_tokens = torch.cat([current_tokens, nxt_token.unsqueeze(1)], dim=1)
 
             # Break if the end-of-sequence token is generated
-            if eos_idx is not None and next_token.item() == eos_idx:
+            if eos_idx is not None and nxt_token.item() == eos_idx:
                 break
 
         if was_training:
