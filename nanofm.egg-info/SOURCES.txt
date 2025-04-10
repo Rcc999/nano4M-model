@@ -15,6 +15,7 @@ nanofm/modeling/__init__.py
 nanofm/modeling/transformer_layers.py
 nanofm/models/__init__.py
 nanofm/models/gpt.py
+nanofm/models/maskgit.py
 nanofm/utils/__init__.py
 nanofm/utils/checkpoint.py
 nanofm/utils/dist.py

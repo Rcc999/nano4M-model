@@ -167,11 +167,12 @@ class MaskGIT(nn.Module):
         # Note: How can you avoid using a for loop here, and instead use
         # vectorized operations?
         # Hint: Don't forget to create the mask on the same device as seq.
-        num_masks = torch.randint(1, L+1, (B,), device=seq.device)
         mask = torch.zeros((B, L), dtype=torch.bool, device=seq.device)
-        for i in range(B):
-            perm = torch.randperm(L, device=seq.device)
-            mask[i, perm[:num_masks[i]]] = True
+        num_masks = torch.randint(1, L+1, (B,), device=seq.device)
+        rand = torch.rand((B, L), device=seq.device)
+        sorted_indices = torch.argsort(rand, dim=1)
+        batch_indices = torch.arange(B, device=seq.device).unsqueeze(1)
+        mask[batch_indices, sorted_indices] = torch.arange(L, device=seq.device).unsqueeze(0) < num_masks.unsqueeze(1)
         return mask
 
     def compute_ce_loss(self, logits: torch.Tensor, target_seq: torch.LongTensor, ignore_index: int = -100) -> torch.Tensor:
@@ -329,7 +330,7 @@ class MaskGIT(nn.Module):
             # Make sure to pass the `temp`, `top_k` and `top_p` arguments
             samples, _ = sample_tokens(
                 logits=selected_logits,
-                temp=temp,
+                temperature=temp,
                 top_k=top_k,
                 top_p=top_p
             )
