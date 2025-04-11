@@ -130,14 +130,18 @@ class MaskGIT(nn.Module):
 
         # TODO: Replace embeddings for masked tokens with the learned self.mask_token, wherever mask is True.
         # The mask token (D) is broadcast to all masked positions (B, L)
-        x_emb[mask] = self.mask_token
+        token_mask = self.mask_token.unsqueeze(0).unsqueeze(0).expand(B, L, -1)
+        x_emb = torch.where(mask.unsqueeze(-1), token_mask, x_emb)
 
         # TODO: Add the positional embeddings to the tokens
-        x_emb += self.positional_embedding
+        pos_emb = self.positional_embedding[:self.positional_embedding.size(0)]
+        pos_emb = pos_emb.repeat(L // self.positional_embedding.size(0) + 1, 1)[:L]
+        pos_emb = pos_emb.unsqueeze(0).expand(B, -1, -1)
+        x_emb = x_emb + pos_emb
 
         # TODO: Forward pass through Transformer trunk
         # Hint: No causal mask is needed here, since we are using full self-attention.
-        x_emb = self.trunk(x_emb)
+        x_emb = self.trunk(x_emb, mask=None)
 
         # TODO: Pass to the output normalization and output projection layer to compute the logits
         x_emb = self.out_norm(x_emb)
@@ -306,7 +310,7 @@ class MaskGIT(nn.Module):
             logits = self.forward_model(seq, mask)
             
             # TODO: Get the indices of masked tokens. Shape: [M,] (M = number of masked tokens)
-            masked_indices = torch.where(mask)[0]
+            masked_indices = torch.where(mask[0])[0]
 
             # TODO: Get the logits for the `masked_indices` positions. Shape: [M, vocab_size]
             masked_logits = logits[0, masked_indices]
@@ -319,7 +323,7 @@ class MaskGIT(nn.Module):
             # select the top-k masked positions based on confidence. Shape: [k,]
             # Hint: First, get the top-k indices of the confidence scores, and then use these indices
             # to select the corresponding masked positions.
-            top_k_confidence, top_k_indices = torch.topk(confidence, k=k)
+            _, top_k_indices = torch.topk(confidence, k=k)
             selected_positions = masked_indices[top_k_indices]
             
             # TODO: Get the logits for the `selected_positions`. Shape: [k, vocab_size]
