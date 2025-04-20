@@ -1,0 +1,57 @@
++ cat /var/spool/slurmd/job2604568/slurm_script
++ export MASTER_PORT=25678
++ MASTER_PORT=25678
+++ hostname
++ export MASTER_ADDR=i23
++ MASTER_ADDR=i23
++ export WANDB_API_KEY=c80687eb51acc4024f6907e16bcf29fd0f9862c1
++ WANDB_API_KEY=c80687eb51acc4024f6907e16bcf29fd0f9862c1
++ export NCCL_DEBUG=INFO
++ NCCL_DEBUG=INFO
++ srun bash -c '
+  TORCHRUN_ARGS="--node-rank=${SLURM_PROCID}      --master-addr=${MASTER_ADDR}      --master-port=${MASTER_PORT}      --nnodes=${SLURM_NNODES}      --nproc-per-node=2"
+
+  echo ${SLURM_PROCID}
+  echo ${TORCHRUN_ARGS}
+  echo ${SLURMD_NODENAME}
+
+  torchrun ${TORCHRUN_ARGS} run_training.py     --config cfgs/nano4M/multiclevr_d6-6w512.yaml
+'
+W0420 20:07:26.783000 3167240 site-packages/torch/distributed/run.py:792] 
+W0420 20:07:26.783000 3167240 site-packages/torch/distributed/run.py:792] *****************************************
+W0420 20:07:26.783000 3167240 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0420 20:07:26.783000 3167240 site-packages/torch/distributed/run.py:792] *****************************************
+W0420 20:07:26.898000 939003 site-packages/torch/distributed/run.py:792] 
+W0420 20:07:26.898000 939003 site-packages/torch/distributed/run.py:792] *****************************************
+W0420 20:07:26.898000 939003 site-packages/torch/distributed/run.py:792] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0420 20:07:26.898000 939003 site-packages/torch/distributed/run.py:792] *****************************************
+[rank3]:[W420 20:07:29.388641070 ProcessGroupNCCL.cpp:4561] [PG ID 0 PG GUID 0 Rank 3]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. Specify device_ids in barrier() to force use of a particular device, or call init_process_group() with a device_id.
+[rank2]:[W420 20:07:29.408693615 ProcessGroupNCCL.cpp:4561] [PG ID 0 PG GUID 0 Rank 2]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. Specify device_ids in barrier() to force use of a particular device, or call init_process_group() with a device_id.
+[rank1]:[W420 20:07:29.041411512 ProcessGroupNCCL.cpp:4561] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. Specify device_ids in barrier() to force use of a particular device, or call init_process_group() with a device_id.
+[rank0]:[W420 20:07:29.041412862 ProcessGroupNCCL.cpp:4561] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. Specify device_ids in barrier() to force use of a particular device, or call init_process_group() with a device_id.
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: rayane-charifchefchaouni (rayane-charifchefchaouni-epfl) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.8
+wandb: Run data is saved locally in /home/rcharif/nano4M-model/wandb/run-20250420_200730-uh3pefmx
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run multiclevr_d6-6w512
+wandb: ⭐️ View project at https://wandb.ai/rayane-charifchefchaouni-epfl/COM304_nano4M
+wandb: 🚀 View run at https://wandb.ai/rayane-charifchefchaouni-epfl/COM304_nano4M/runs/uh3pefmx
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/torch/utils/data/dataloader.py:624: UserWarning: This DataLoader will create 10 worker processes in total. Our suggested max number of worker in current system is 4, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/torch/utils/data/dataloader.py:624: UserWarning: This DataLoader will create 10 worker processes in total. Our suggested max number of worker in current system is 4, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/torch/utils/data/dataloader.py:624: UserWarning: This DataLoader will create 10 worker processes in total. Our suggested max number of worker in current system is 4, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/work/com-304/new_environment/anaconda3/envs/nanofm/lib/python3.10/site-packages/torch/utils/data/dataloader.py:624: UserWarning: This DataLoader will create 10 worker processes in total. Our suggested max number of worker in current system is 4, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+[rank2]:[W421 00:50:31.371822423 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank0]:[W421 00:50:35.609007380 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
